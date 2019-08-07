@@ -1,0 +1,5 @@
+# depslib dependency file v1.0
+1565038140 source:c:\users\dell\documents\#xtra\project\dijkstra trial\main.c
+	<stdio.h>
+	<stdlib.h>
+
