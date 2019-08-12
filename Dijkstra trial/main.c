@@ -74,7 +74,7 @@ lst1 *heap_extract_max(lst1 *a,int *heapsize_p)
     }
     //lst1 *b = (lst1 *)malloc(sizeof(lst1));
     lst1 *b = &a[0];
-    b.marker = 1;
+    b->marker = 1;
     a[0] = a[*heapsize_p-1];
     *heapsize_p -= *heapsize_p;
     max_heapify(a,0,*heapsize_p);
@@ -199,22 +199,22 @@ int main()
             printf("\nEvery node is visited\nStill the iteration is running\nSOMETHING WRONG IN CODE>>CHECK\n");
             exit(0);
         }
-        l3.marker = 1; //Marking the vertex as known, also marked it previously in the extract-max fn
+        l3->marker = 1; //Marking the vertex as known, also marked it previously in the extract-max fn
         int j;
-        for(j=0;j<l3.deg;++j)
+        for(j=0;j<l3->deg;++j)
         {
-            int dist = l3.distance + l3.l2[j].wt;
-            int k = _search(l1, l3.l2[j].v1, n );
+            int dist = l3->distance + l3->l2[j].wt;
+            int k = _search(l1, l3->l2[j].v1, n );
             if(k == -1)
             {
                 printf("\nSomething's wrong!!\n");
                 exit(0);
             }
-            lst1 *neighbour = l1[k];
-            if(dist < neighbour.distance)
+            lst1 *neighbour = &l1[k];
+            if(dist < neighbour->distance)
             {
-                neighbour.distance = dist;
-                neighbour.previous = l3.v;
+                neighbour->distance = dist;
+                neighbour->previous = l3->v;
             }
         }
     }
