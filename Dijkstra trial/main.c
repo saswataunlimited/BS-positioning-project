@@ -52,13 +52,13 @@ void max_heapify(lst1 *a, int i,int heapsize)
         a[i] = a[largest];
         a[largest] = temp;
     }
-    max_heapify(a,largest,heapsize);
+    max_heapify(a,largest,heapsize);  //possible flaw ***
 }
 
 void Build_max_heap(lst1 *a,int heapsize)
 {
     int i;
-    for(i=floor(heapsize/2);i>=0;--i)
+    for(i=floor(heapsize/2);i>=0;--i)   //possible flaw ***
         max_heapify(a,i,heapsize);
 }
 
