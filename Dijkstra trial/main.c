@@ -19,17 +19,20 @@ typedef struct list1 lst1;
 
 int parent(int i)
 {
-    return floor(i/2);
+    if(i%2 == 0)
+        return (i-1)/2;
+    else
+        return (i/2)-1;
 }
 
 int left(int i)
 {
-    return (2*i);
+    return (2*i)+1;
 }
 
 int right(int i)
 {
-    return (2*i)+1;
+    return (2*i)+2;
 }
 
 void max_heapify(lst1 *a, int i,int heapsize)
@@ -45,9 +48,9 @@ void max_heapify(lst1 *a, int i,int heapsize)
         largest = r;
     if(largest != i)
     {
-        char temp = a[i].v;
-        a[i].v = a[largest].v;
-        a[largest].v = temp;
+        lst1 temp = a[i];
+        a[i] = a[largest];
+        a[largest] = temp;
     }
     max_heapify(a,largest,heapsize);
 }
