@@ -41,11 +41,11 @@ void max_heapify(lst1 *a, int i,int heapsize)
     int l = left(i);
     int r = right(i);
     int largest;
-    if(l<=heapsize && a[l].distance>a[i].distance)
+    if(l<=heapsize && a[l].distance<a[i].distance)
         largest = l;
     else
         largest = i;
-    if(r<=heapsize && a[r].distance>a[largest].distance)
+    if(r<=heapsize && a[r].distance<a[largest].distance)
         largest = r;
     if(largest != i)
     {
