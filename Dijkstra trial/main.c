@@ -41,11 +41,11 @@ void max_heapify(lst1 *a, int i,int heapsize)
     int l = left(i);
     int r = right(i);
     int largest;
-    if(l<=heapsize && a[l].distance<a[i].distance)
+    if(l<heapsize && a[l].distance<a[i].distance)
         largest = l;
     else
         largest = i;
-    if(r<=heapsize && a[r].distance<a[largest].distance)
+    if(r<heapsize && a[r].distance<a[largest].distance)
         largest = r;
     if(largest != i)
     {
@@ -66,7 +66,7 @@ void Build_max_heap(lst1 *a,int heapsize)
 
 lst1 *heap_extract_max(lst1 *a,int *heapsize_p)
 {
-    if(*heapsize_p<1)
+    if(*heapsize_p<0)
     {
         printf("\nHeap Underflow!!\n");
         //exit(0);
@@ -75,8 +75,8 @@ lst1 *heap_extract_max(lst1 *a,int *heapsize_p)
     //lst1 *b = (lst1 *)malloc(sizeof(lst1));
     lst1 *b = &a[0];
     b->marker = 1;
-    a[0] = a[*heapsize_p-1];
-    *heapsize_p -= *heapsize_p;
+    a[0] = a[(*heapsize_p) - 1];
+    *heapsize_p -= 1;
     max_heapify(a,0,*heapsize_p);
     return b;
 }
@@ -165,11 +165,12 @@ int main()
 
     printf("\nWhich one is your source:\n");
     char sv;  //sv stands for source vertex
+    getchar();
     scanf("%c",&sv);
     for(i=0;i<n;++i)
     {
         if(l1[i].v == sv){
-            l1[i].distance = 0;    //setting the source vertex
+            l1[i].distance = 0;    //searching and setting the source vertex
             break;
         }
     }
@@ -191,8 +192,8 @@ int main()
     printf("\nLet's go Dijkstra:\n");
     for(i=0;i<n;++i)       //list is not empty:
     {
-        if(l1[0].marker == 1)
-            break;
+        /*if(l1[0].marker == 1)
+            break;*/
         lst1 *l3 = heap_extract_max(l1,heapsize_p);
         if(l3 == NULL)
         {
@@ -201,7 +202,7 @@ int main()
         }
         l3->marker = 1; //Marking the vertex as known, also marked it previously in the extract-max fn
         int j;
-        for(j=0;j<l3->deg;++j)
+        for(j=0;j<(l3->deg);++j)
         {
             int dist = l3->distance + l3->l2[j].wt;
             int k = _search(l1, l3->l2[j].v1, n );
