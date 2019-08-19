@@ -38,8 +38,6 @@ int right(int i)
 
 void max_heapify(lst1 *a, int i,int heapsize)
 {
-    //int j;
-    printf("\n");
     int l = left(i);
     int r = right(i);
     int largest;
@@ -56,7 +54,6 @@ void max_heapify(lst1 *a, int i,int heapsize)
         a[largest] = temp;
         max_heapify(a,largest,heapsize);  //Changed here //Success
     }
-    printf("%c : %d\n",a[0].v, a[0].distance);
     //max_heapify(a,largest,heapsize);  //possible flaw ***
 }
 
@@ -69,18 +66,17 @@ void Build_max_heap(lst1 *a,int heapsize)
 
 lst1 *heap_extract_max(lst1 *a,int *heapsize_p)
 {
-    if(*heapsize_p<1)
+    if(*heapsize_p<0)
     {
         printf("\nHeap Underflow!!\n");
         //exit(0);
         return NULL;
     }
     //lst1 *b = (lst1 *)malloc(sizeof(lst1));
-    lst1 *b = malloc(sizeof(lst1)); *b = a[0];
+    lst1 *b = &a[0];
     b->marker = 1;
-    a[0] = a[*heapsize_p-1];
-    a[*heapsize_p-1] = *b;
-    *heapsize_p = *heapsize_p - 1;
+    a[0] = a[(*heapsize_p) - 1];
+    *heapsize_p -= 1;
     max_heapify(a,0,*heapsize_p);
     return b;
 }
@@ -143,7 +139,7 @@ int main()
             char ch;
             int a;
             getchar();
-            scanf("%c %d",&ch,&a);
+            scanf("%c%d",&ch,&a);
             (l1[i]).l2[j].v1= ch;
             (l1[i]).l2[j].wt = a;
         }
@@ -169,19 +165,18 @@ int main()
 
     printf("\nWhich one is your source:\n");
     char sv;  //sv stands for source vertex
-    scanf(" %c",&sv);
-    printf("source :%c\n", sv);
+    getchar();
+    scanf("%c",&sv);
     for(i=0;i<n;++i)
     {
         if(l1[i].v == sv){
-            l1[i].distance = 0;    //setting the source vertex
+            l1[i].distance = 0;    //searching and setting the source vertex
             break;
         }
     }
-
     Build_max_heap(l1,n);
 
-    printf("\nHeap creation done. Let's check if any changes...%c\n", sv);
+    printf("\nHeap creation done. Let's check if any changes...\n");
     for(i=0;i<n;++i)
     {
         printf("%c-%d->->",l1[i].v,l1[i].deg);
@@ -197,8 +192,8 @@ int main()
     printf("\nLet's go Dijkstra:\n");
     for(i=0;i<n;++i)       //list is not empty:
     {
-        if(l1[0].marker == 1)
-            break;
+        /*if(l1[0].marker == 1)
+            break;*/
         lst1 *l3 = heap_extract_max(l1,heapsize_p);
         if(l3 == NULL)
         {
@@ -207,7 +202,7 @@ int main()
         }
         l3->marker = 1; //Marking the vertex as known, also marked it previously in the extract-max fn
         int j;
-        for(j=0;j<l3->deg;++j)
+        for(j=0;j<(l3->deg);++j)
         {
             int dist = l3->distance + l3->l2[j].wt;
             int k = _search(l1, l3->l2[j].v1, n );
@@ -217,13 +212,11 @@ int main()
                 exit(0);
             }
             lst1 *neighbour = &l1[k];
-            printf("vertex:%c neighbour:%c dist:%d, neighbourdist:%d\n", l3->v, neighbour->v, dist, neighbour->distance);
             if(dist < neighbour->distance)
             {
                 neighbour->distance = dist;
                 neighbour->previous = l3->v;
             }
-            max_heapify(l1, 0 , *heapsize_p);
         }
     }
 
